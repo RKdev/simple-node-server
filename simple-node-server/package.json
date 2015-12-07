@@ -7,6 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "Brad Traversy from `Learn Nodejs by Building 10 Projects at Udemy.com`",
+  "author": "Brad Traversy from Learn Nodejs by Building 10 Projects at Udemy.com",
   "license": "GPL"
 }
