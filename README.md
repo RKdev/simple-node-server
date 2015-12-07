@@ -8,3 +8,5 @@ cd to project directory
 chmod +x install-simple-node-server.sh
 
 ./install-simple-node-server.sh
+
+runs on "localhost:1337"
