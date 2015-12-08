@@ -11,6 +11,6 @@ chmod +x install-simple-node-server.sh
 
 cd ~/install-simple-node-server
 
-npm start
+npm
 
 runs on "localhost:1337"
