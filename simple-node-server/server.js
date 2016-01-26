@@ -656,9 +656,10 @@ var mimeTypes = {
 
 // Create Server
 http.createServer(function(req, res){
+	//Resouce loader
 	var uri = url.parse(req.url).pathname;
 	var fileName = path.join(process.cwd(),unescape(uri));
-	console.log('Loading '+ uri);
+	console.log('Resource loader: Loading '+ uri);
 	var stats;
 
 	try{
@@ -670,6 +671,7 @@ http.createServer(function(req, res){
 		return;
 	}
 
+
 	// Check if file/directory
 	if(stats.isFile()){
 		var mimeType = mimeTypes[path.extname(fileName).split("").reverse()[0]];
@@ -677,14 +679,32 @@ http.createServer(function(req, res){
 
 		var fileStream = fs.createReadStream(fileName);
 		fileStream.pipe(res);
+
 	} else if(stats.isDirectory()){
-		res.writeHead(302,{
-			'Location' : 'index.html'
-		});
+  		res.writeHead(302,{'Location' : 'index.html'});
 		res.end();
 	} else {
 		res.writeHead(500, {'Content-Type' : 'text/plain'});
 		res.write('500 Internal Error\n');
 		res.end();
 	}
-}).listen(1337);
+
+  //POST handler
+	if(req.method === 'POST'){
+		    console.log('POST handler: Begin POST transaction');
+	     	var fullBody = '';
+		    req.on('data', function(chunk) {
+		      // append the current chunk of data to the fullBody variable
+		      fullBody += chunk;
+		    });
+
+    req.on('end', function() {
+			console.log("POST handler: " + uri);
+			var wstream = fs.createWriteStream(fileName);
+			wstream.write(fullBody);
+			wstream.end();
+      console.log('POST handler: End POST transaction');
+    });
+
+	}
+}).listen(5397);
